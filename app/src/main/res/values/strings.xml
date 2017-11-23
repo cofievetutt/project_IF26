@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Gestion des comptes</string>
+
+    <string name="buttonConnexion">Connexion</string>
+    <string name="buttonInscription">Inscription</string>
+    <string name="buttonAjouter">Ajouter</string>
+    <string name="buttonValider">Valider</string>
+
+    <string name="radioButtonMonsieur">Monsieur</string>
+    <string name="radioButtonMadame">Madame</string>
+
+    <string name="textViewNom">Nom</string>
+    <string name="textViewNomMarital">Nom marital</string>
+    <string name="textViewPrenom">Prenom</string>
+    <string name="textViewEmail">Email</string>
+    <string name="textViewIdentifiant">Identifiant</string>
+    <string name="textViewMotDePasse">Mot de passe</string>
+    <string name="textViewConfirmerMotDePasse">Confirmer le mot de passe</string>
+    <string name="textViewNumero">Numero de compte</string>
+
+
+</resources>

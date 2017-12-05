@@ -26,6 +26,16 @@
         </activity>
         <activity android:name=".AjouterCompteActivity">
         </activity>
+        <activity android:name=".RecetteActivity">
+        </activity>
+        <activity android:name=".AjouterRecetteActivity">
+        </activity>
+        <activity android:name=".ModifierRecetteActivity">
+        </activity>
+        <activity android:name=".AccueilActivity">
+        </activity>
+        <activity android:name=".ConsulterRecetteActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
             this.buttonInscription.setVisibility(View.GONE);
         }
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         UtilMenu.createMenu(menu);
@@ -46,31 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        switch (item.getItemId()) {
-            case UtilMenu.MENU_ACCEUIL:
-                Toast.makeText(getApplicationContext(), "Accueil", Toast.LENGTH_LONG).show();
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_INSCRIPTION:
-                Toast.makeText(getApplicationContext(), "Inscription", Toast.LENGTH_LONG).show();
-                intent.setClass(this, InscriptionActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_COMPTE:
-                Toast.makeText(getApplicationContext(), "Liste des comptes", Toast.LENGTH_LONG).show();
-                intent.setClass(MainActivity.this, CompteActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_DECONNEXION:
-                Toast.makeText(getApplicationContext(), "Au revoir " + ConnexionActivity.utilisateurConnecte.getPrenom() + " " + ConnexionActivity.utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
-                ConnexionActivity.utilisateurConnecte = null;
-
-                intent.setClass(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                break;
-        }
+        UtilMenu.selectOptionMenu(item, this, this);
        return false;
     }
 

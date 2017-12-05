@@ -32,6 +32,52 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             "(1, 'Monsieur')," +
             "(2, 'Madame');";
 
+    //Table Genre
+    public static final String TABLE_ETAT_NAME = "Etat";
+    public static final String COL_1_ETAT = "idEtat";
+    public static final String COL_2_ETAT = "libelle";
+    public static final String CREATE_TABLE_ETAT = "CREATE TABLE IF NOT EXISTS " + TABLE_ETAT_NAME + " (" +
+            COL_1_ETAT + " INTEGER PRIMARY KEY NOT NULL," +
+            COL_2_ETAT + " TEXT NOT NULL)";
+
+    public static final String INSERT_VALEUR_DEFAUT_ETAT =
+            "INSERT OR REPLACE INTO " + TABLE_ETAT_NAME + " (" + COL_1_ETAT + "," + COL_2_ETAT + ")" +
+                    "VALUES " +
+                    "(1, 'En Attente')," +
+                    "(2, 'Validé');";
+
+    //Table Banque
+    public static final String TABLE_BANQUE_NAME = "Banque";
+    public static final String COL_1_BANQUE = "idBanque";
+    public static final String COL_2_BANQUE = "libelle";
+    public static final String CREATE_TABLE_BANQUE = "CREATE TABLE IF NOT EXISTS " + TABLE_BANQUE_NAME + " (" +
+            COL_1_BANQUE + " INTEGER PRIMARY KEY NOT NULL," +
+            COL_2_BANQUE + " TEXT NOT NULL)";
+
+    public static final String INSERT_VALEUR_DEFAUT_BANQUE =
+            "INSERT OR REPLACE INTO " + TABLE_BANQUE_NAME + " (" + COL_1_BANQUE + "," + COL_2_BANQUE + ")" +
+                    "VALUES " +
+                    "(1, 'BNP Paribas')," +
+                    "(2, 'Banque Populaire')," +
+                    "(3, 'Caisse d''Epargne')," +
+                    "(4, 'LCL')," +
+                    "(5, 'Autre');";
+
+    //Table catégorie
+    public static final String TABLE_CATEGORIE_NAME = "Categorie";
+    public static final String COL_1_CATEGORIE = "idCategorie";
+    public static final String COL_2_CATEGORIE = "libelle";
+    public static final String CREATE_TABLE_CATEGORIE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIE_NAME + " (" +
+            COL_1_CATEGORIE + " INTEGER PRIMARY KEY NOT NULL," +
+            COL_2_CATEGORIE + " TEXT NOT NULL)";
+
+    public static final String INSERT_VALEUR_DEFAUT_CATEGORIE =
+            "INSERT OR REPLACE INTO " + TABLE_CATEGORIE_NAME + " (" + COL_1_CATEGORIE + "," + COL_2_CATEGORIE + ")" +
+                    " VALUES " +
+                    " (1, 'Salaire')," +
+                    " (2, 'Voiture')," +
+                    " (3, 'Courses')," +
+                    " (4, 'Autre');";
 
     //Table Utilisateur
     public static final String TABLE_UTILISATEUR_NAME = "Utilisateur";
@@ -85,6 +131,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public static final String COL_4_RECETTE = "idCompte";
     public static final String COL_5_RECETTE = "idCategorie";
     public static final String COL_6_RECETTE = "commentaire";
+    public static final String COL_7_RECETTE = "idEtat";
     public static final String CREATE_TABLE_RECETTE = "CREATE TABLE IF NOT EXISTS " + TABLE_RECETTE_NAME + "(" +
             COL_1_RECETTE + " INTEGER PRIMARY KEY NOT NULL," +
             COL_2_RECETTE + " DATE NOT NULL," +
@@ -92,8 +139,12 @@ public class DataBaseHelper extends SQLiteOpenHelper{
             COL_4_RECETTE + " INTEGER NOT NULL," +
             COL_5_RECETTE + " INTEGER NOT NULL," +
             COL_6_RECETTE + " TEXT NOT NULL," +
+            COL_7_RECETTE + " INTEGER NOT NULL," +
             "FOREIGN KEY(" + COL_4_RECETTE + ") REFERENCES " + TABLE_COMPTE_NAME + "(" + COL_1_COMPTE + ")" +
+            "FOREIGN KEY(" + COL_5_RECETTE + ") REFERENCES " + TABLE_CATEGORIE_NAME + "(" + COL_1_CATEGORIE + ")" +
+            "FOREIGN KEY(" + COL_7_RECETTE + ") REFERENCES " + TABLE_ETAT_NAME + "(" + COL_1_ETAT + ")" +
             ");";
+
 
 
     public DataBaseHelper(Context context)
@@ -107,6 +158,12 @@ public class DataBaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_GENRE);
         db.execSQL(INSERT_VALEUR_DEFAUT_GENRE);
+        db.execSQL(CREATE_TABLE_ETAT);
+        db.execSQL(INSERT_VALEUR_DEFAUT_ETAT);
+        db.execSQL(CREATE_TABLE_CATEGORIE);
+        db.execSQL(INSERT_VALEUR_DEFAUT_CATEGORIE);
+        db.execSQL(CREATE_TABLE_BANQUE);
+        db.execSQL(INSERT_VALEUR_DEFAUT_BANQUE);
         db.execSQL(CREATE_TABLE_UTILISATEUR);
         db.execSQL(CREATE_TABLE_COMPTE);
         db.execSQL(CREATE_TABLE_RECETTE);

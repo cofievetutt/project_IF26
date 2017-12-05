@@ -19,4 +19,11 @@
     <string name="textViewNumero">Numero de compte</string>
 
 
+    <string name="edit">Modifier</string>
+    <string name="categorie">Catégorie</string>
+    <string name="attente">En attente</string>
+
+    <string name="ajouterRecette">Ajouter une recette/dépense</string>
+
+
 </resources>

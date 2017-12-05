@@ -1,12 +1,16 @@
 package fr.utt.if26.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.utt.if26.myapplication.Class.ClassDb.Compte;
+import fr.utt.if26.myapplication.Class.ClassDb.Recette;
 import fr.utt.if26.myapplication.Class.DataBaseHelper;
 import fr.utt.if26.myapplication.Class.UtilMenu;
 
@@ -27,6 +32,10 @@ public class CompteActivity extends AppCompatActivity implements OnClickListener
 
     Button buttonAjouterCompte;
     ListView listViewCompte;
+
+    ArrayList<Compte> listeCompte = new ArrayList<Compte>();
+
+    public static int idCompte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +47,48 @@ public class CompteActivity extends AppCompatActivity implements OnClickListener
 
         this.listViewCompte = (ListView) findViewById(R.id.listViewCompte);
 
-        ArrayList<Compte> listeCompte = new ArrayList<Compte>();
 
         try {
-            listeCompte = Compte.getAllComptesByIdUtilisateur(ConnexionActivity.utilisateurConnecte.getIdUtilisateur(), DataBaseHelper.db);
+            this.listeCompte = Compte.getAllComptesByIdUtilisateur(ConnexionActivity.utilisateurConnecte.getIdUtilisateur(), DataBaseHelper.db);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        ArrayAdapter<Compte> adapter = new ArrayAdapter<Compte>(this, android.R.layout.simple_list_item_1 , listeCompte);
+        final ArrayAdapter<Compte> adapter = new ArrayAdapter<Compte>(this, android.R.layout.simple_list_item_1 , this.listeCompte){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                View row = super.getView(position, convertView, parent);
+
+                if(listeCompte.get(position).getCapital() < 0)
+                {
+                    row.setBackgroundColor(Color.parseColor("#7F0000"));
+                }
+                else
+                {
+                    row.setBackgroundColor(Color.parseColor("#006600"));
+
+                }
+
+                //Rest of your code
+                return row;
+            }
+        };
+
         this.listViewCompte.setAdapter(adapter);
+
+        listViewCompte.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Compte compte = listeCompte.get(position);
+                idCompte = compte.getIdCompte();
+
+                Intent intent = new Intent( CompteActivity.this, RecetteActivity.class );
+                startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -59,26 +99,8 @@ public class CompteActivity extends AppCompatActivity implements OnClickListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        switch (item.getItemId()) {
-            case UtilMenu.MENU_ACCEUIL:
-                Toast.makeText(getApplicationContext(), "Accueil", Toast.LENGTH_LONG).show();
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_COMPTE:
-                Toast.makeText(getApplicationContext(), "Liste des comptes", Toast.LENGTH_LONG).show();
-                intent.setClass(this, CompteActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_DECONNEXION:
-                Toast.makeText(getApplicationContext(), "Au revoir " + ConnexionActivity.utilisateurConnecte.getPrenom() + " " + ConnexionActivity.utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
-                ConnexionActivity.utilisateurConnecte = null;
 
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                break;
-        }
+        UtilMenu.selectOptionMenu(item, this, this);
         return false;
     }
 

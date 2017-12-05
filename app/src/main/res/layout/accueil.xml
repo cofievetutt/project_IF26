@@ -5,25 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.utt.if26.myapplication.MainActivity">
+    tools:context="fr.utt.if26.myapplication.AccueilActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_gravity="bottom">
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
 
-        <Button
-            android:id="@+id/buttonConnexion"
+        <ListView
+            android:id="@+id/listViewAccueil"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonConnexion"/>
-
-        <Button
-            android:id="@+id/buttonInscription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonInscription"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

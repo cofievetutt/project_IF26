@@ -7,14 +7,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import fr.utt.if26.myapplication.Class.ClassDb.Categorie;
 import fr.utt.if26.myapplication.Class.ClassDb.Compte;
 import fr.utt.if26.myapplication.Class.ClassDb.Recette;
 import fr.utt.if26.myapplication.Class.DataBaseHelper;
@@ -25,12 +33,16 @@ public class AjouterRecetteActivity extends AppCompatActivity implements OnClick
     Button ButtonAjouterRecette;
     EditText EditTextMontant;
     EditText EditTextCommentaire;
+    Spinner comboboxCategorie;
+    ListView listViewCategorie;
 
     RadioButton rbDepense;
     RadioButton rbRecette;
 
     RadioButton rbEnAttente;
     RadioButton rbValider;
+
+    ArrayList<Categorie> listeCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,18 @@ public class AjouterRecetteActivity extends AppCompatActivity implements OnClick
 
         this.rbValider = (RadioButton) findViewById(R.id.radioButtonValider);
         this.rbValider.setOnClickListener(this);
+
+        this.listeCategories = new ArrayList<>();
+        try {
+            listeCategories = Categorie.getAllCategorie();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.comboboxCategorie = (Spinner) findViewById(R.id.comboboxCat);
+
+        ArrayAdapter<Categorie> adapter = new ArrayAdapter<Categorie>(this, android.R.layout.simple_spinner_item , listeCategories);
+        this.comboboxCategorie.setAdapter(adapter);
     }
 
     @Override
@@ -79,19 +103,33 @@ public class AjouterRecetteActivity extends AppCompatActivity implements OnClick
         {
             double montant = Double.parseDouble(this.EditTextMontant.getText().toString());
             String commentaire = this.EditTextCommentaire.getText().toString();
+            int idEtat = 2;
+
+            int positionCat = this.comboboxCategorie.getSelectedItemPosition();
+            Categorie categorie = this.listeCategories.get(positionCat);
 
             if(this.rbDepense.isChecked())
             {
                 montant = - montant;
             }
 
+            if(this.rbEnAttente.isChecked())
+            {
+                idEtat = 1;
+            }
+
             try {
-                Compte compte = Compte.getCompteById(CompteActivity.idCompte);
-                compte.updateCapitalCompte(montant);
+                if(idEtat == 2) {
+                    Compte compte = Compte.getCompteById(CompteActivity.idCompte);
+                    compte.updateCapitalCompte(montant);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Recette recette = new Recette(new Date(), montant, CompteActivity.idCompte, 1, commentaire);
+
+
+
+            Recette recette = new Recette(new Date(), montant, CompteActivity.idCompte, categorie.getIdCategorie(), commentaire, idEtat);
             recette.insertNouvelRecette(DataBaseHelper.db);
 
             Toast.makeText(getApplicationContext(), "La recette a bien été ajouté", Toast.LENGTH_LONG).show();
@@ -106,8 +144,8 @@ public class AjouterRecetteActivity extends AppCompatActivity implements OnClick
         }
 
         if (v.equals(this.rbRecette)) {
-            this.rbRecette.setChecked(true);
             this.rbDepense.setChecked(false);
+            this.rbRecette.setChecked(true);
         }
 
         if (v.equals(this.rbEnAttente)) {
@@ -116,8 +154,8 @@ public class AjouterRecetteActivity extends AppCompatActivity implements OnClick
         }
 
         if (v.equals(this.rbValider)) {
-            this.rbEnAttente.setChecked(true);
-            this.rbValider.setChecked(false);
+            this.rbEnAttente.setChecked(false);
+            this.rbValider.setChecked(true);
         }
     }
 }

@@ -38,26 +38,8 @@ public class ConnexionActivity extends AppCompatActivity implements OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        switch (item.getItemId()) {
-            case UtilMenu.MENU_ACCEUIL:
-                Toast.makeText(getApplicationContext(), "Accueil", Toast.LENGTH_LONG).show();
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_COMPTE:
-                Toast.makeText(getApplicationContext(), "Liste des comptes", Toast.LENGTH_LONG).show();
-                intent.setClass(this, CompteActivity.class);
-                startActivity(intent);
-                break;
-            case UtilMenu.MENU_DECONNEXION:
-                Toast.makeText(getApplicationContext(), "Au revoir " + ConnexionActivity.utilisateurConnecte.getPrenom() + " " + ConnexionActivity.utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
-                ConnexionActivity.utilisateurConnecte = null;
 
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
-                break;
-        }
+        UtilMenu.selectOptionMenu(item, this, this);
         return false;
     }
 
@@ -73,7 +55,7 @@ public class ConnexionActivity extends AppCompatActivity implements OnClickListe
             if (utilisateurConnecte != null) {
                 Toast.makeText(getApplicationContext(), "Bonjour " + utilisateurConnecte.getPrenom() + " " + utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.setClass(ConnexionActivity.this, MainActivity.class);
+                intent.setClass(ConnexionActivity.this, AccueilActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), "Email ou mot de passe incorrect", Toast.LENGTH_LONG).show();

@@ -169,4 +169,54 @@ public class Compte {
 
         return listeCompteUtilisateur;
     }
+
+    public static Compte getCompteById(int idCompte) throws ParseException {
+        SQLiteDatabase stmt = DataBaseHelper.db.getReadableDatabase();
+        Cursor cursor = stmt.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_COMPTE_NAME + " WHERE " + DataBaseHelper.COL_1_COMPTE + "='" + idCompte + "';", null);
+
+        Compte compte = null;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+
+            int id = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_1_COMPTE));
+            String numero = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_2_COMPTE));
+            String date = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_3_COMPTE));
+            double capital = cursor.getDouble(cursor.getColumnIndex(DataBaseHelper.COL_4_COMPTE));
+            boolean cloture = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_5_COMPTE)) > 0;
+            int idBanque = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_6_COMPTE));
+            int idUtilisateurDb = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_7_COMPTE));
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date convertedDate = new Date();
+            convertedDate = dateFormat.parse(date);
+
+            System.out.println(convertedDate);
+
+            compte = new Compte(id, numero, convertedDate, capital, cloture, idBanque, idUtilisateurDb);
+
+        }
+
+        return compte;
+    }
+
+    public void updateCapitalCompte(double capital)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(DataBaseHelper.COL_4_COMPTE, this.capital + capital);
+
+        DataBaseHelper.db.getWritableDatabase().update(DataBaseHelper.TABLE_COMPTE_NAME, cv, DataBaseHelper.COL_1_COMPTE + " = " + this.idCompte, null);
+    }
+
+    public double getCaptitalCompteEnAttent() throws ParseException {
+        ArrayList<Recette> recetteArrayList = Recette.getAllRecetteByIdCompteAndEnAttente(this.idCompte, DataBaseHelper.db);
+        double montantEnAttente = 0;
+
+        for(int i = 0; i < recetteArrayList.size(); i++)
+        {
+            montantEnAttente += recetteArrayList.get(i).getMontant();
+        }
+
+        return this.getCapital() + montantEnAttente;
+    }
 }

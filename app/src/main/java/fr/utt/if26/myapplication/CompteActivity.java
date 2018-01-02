@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -59,14 +60,15 @@ public class CompteActivity extends AppCompatActivity implements OnClickListener
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 View row = super.getView(position, convertView, parent);
+                TextView text = (TextView) row.findViewById(android.R.id.text1);
 
                 if(listeCompte.get(position).getCapital() < 0)
                 {
-                    row.setBackgroundColor(Color.parseColor("#7F0000"));
+                    text.setTextColor(Color.RED);
                 }
                 else
                 {
-                    row.setBackgroundColor(Color.parseColor("#006600"));
+                    text.setTextColor(Color.parseColor("#16B84E"));
 
                 }
 

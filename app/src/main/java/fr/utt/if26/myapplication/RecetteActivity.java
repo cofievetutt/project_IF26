@@ -88,20 +88,22 @@ public class RecetteActivity extends AppCompatActivity implements OnClickListene
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 View row = super.getView(position, convertView, parent);
+                TextView text = (TextView) row.findViewById(android.R.id.text1);
 
                 if(listeRecette.get(position).getIdEtat() == 1)
                 {
-                    row.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                    text.setTextColor(Color.BLACK);
+                    row.setBackgroundColor(Color.parseColor("#D3D3D3"));
                 }
                 else
                 {
                     if(listeRecette.get(position).getMontant() < 0)
                     {
-                        row.setBackgroundColor(Color.parseColor("#FF6347"));
+                        text.setTextColor(Color.RED);
                     }
                     else
                     {
-                        row.setBackgroundColor(Color.parseColor("#87E990"));
+                        text.setTextColor(Color.parseColor("#16B84E"));
                     }
                 }
 

@@ -14,11 +14,12 @@
         android:layout_weight="1"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="6dp">
+        tools:layout_editor_absoluteY="6dp"
+        tools:ignore="MissingConstraints">
 
         <ListView
             android:id="@+id/listViewCompte"
-            android:layout_width="363dp"
+            android:layout_width="421dp"
             android:layout_height="432dp"
             tools:layout_editor_absoluteX="11dp"
             tools:layout_editor_absoluteY="43dp"/>

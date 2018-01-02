@@ -48,9 +48,11 @@ public class ConnexionActivity extends AppCompatActivity implements OnClickListe
         if (v.equals(this.button))
         {
             EditText editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+            EditText editTextPass = (EditText) findViewById(R.id.editTextMotDePasse);
             String email = editTextEmail.getText().toString();
+            String pass = editTextPass.getText().toString();
 
-            ConnexionActivity.utilisateurConnecte = Utilisateur.getUtilisateurByEmail(email, DataBaseHelper.db);
+            ConnexionActivity.utilisateurConnecte = Utilisateur.getUtilisateurByIdentifiantAndMotDePasee(email, pass, DataBaseHelper.db);
 
             if (utilisateurConnecte != null) {
                 Toast.makeText(getApplicationContext(), "Bonjour " + utilisateurConnecte.getPrenom() + " " + utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
@@ -58,8 +60,21 @@ public class ConnexionActivity extends AppCompatActivity implements OnClickListe
                 intent.setClass(ConnexionActivity.this, AccueilActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(getApplicationContext(), "Email ou mot de passe incorrect", Toast.LENGTH_LONG).show();
-            }
+
+                ConnexionActivity.utilisateurConnecte = Utilisateur.getUtilisateurByIdentifiantAndMotDePasee(email, pass, DataBaseHelper.db);
+
+                if(utilisateurConnecte != null)
+                {
+                    Toast.makeText(getApplicationContext(), "Bonjour " + utilisateurConnecte.getPrenom() + " " + utilisateurConnecte.getNom(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent();
+                    intent.setClass(ConnexionActivity.this, AccueilActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Email/identifiant ou mot de passe incorrect", Toast.LENGTH_LONG).show();
+                }
+           }
         }
     }
 }

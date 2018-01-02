@@ -21,13 +21,14 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="cofievet@gmail.com"/>
+            android:hint="email"/>
 
         <EditText
             android:id="@+id/editTextMotDePasse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="mot de passe"
             android:inputType="textPassword"
             />
 

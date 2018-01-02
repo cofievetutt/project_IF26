@@ -210,4 +210,62 @@ public class Utilisateur {
         return utilisateur;
 
     }
+
+    public static Utilisateur getUtilisateurByEmailAndMotDePasee(String email, String pass, DataBaseHelper db)
+    {
+        SQLiteDatabase stmt = db.getReadableDatabase();
+        Cursor cursor = stmt.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_UTILISATEUR_NAME + " WHERE " + DataBaseHelper.COL_9_UTILISATEUR + "='" + email.trim() + "' AND " + DataBaseHelper.COL_5_UTILISATEUR + "='" + pass.trim() + "';", null);
+
+        Utilisateur utilisateur = null;
+        if(cursor != null)
+        {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+            if(count > 0) {
+                int id = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_1_UTILISATEUR));
+                String nom = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_2_UTILISATEUR));
+                String nomMarital = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_3_UTILISATEUR));
+                String prenom = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_4_UTILISATEUR));
+                String motDePasse = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_5_UTILISATEUR));
+                String identifiantDb = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_6_UTILISATEUR));
+                int idGenre = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_7_UTILISATEUR));
+                boolean admin = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_8_UTILISATEUR)) > 0;
+                String emailDb = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_9_UTILISATEUR));
+
+                utilisateur = new Utilisateur(id, nom, nomMarital, prenom, motDePasse, identifiantDb, idGenre, admin, emailDb);
+            }
+        }
+
+        return utilisateur;
+
+    }
+
+    public static Utilisateur getUtilisateurByIdentifiantAndMotDePasee(String identifiant, String pass, DataBaseHelper db)
+    {
+        SQLiteDatabase stmt = db.getReadableDatabase();
+        Cursor cursor = stmt.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_UTILISATEUR_NAME + " WHERE " + DataBaseHelper.COL_6_UTILISATEUR + "='" + identifiant.trim() + "' AND " + DataBaseHelper.COL_5_UTILISATEUR + "='" + pass.trim() + "';", null);
+
+        Utilisateur utilisateur = null;
+        if(cursor != null)
+        {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+            if(count > 0) {
+                int id = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_1_UTILISATEUR));
+                String nom = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_2_UTILISATEUR));
+                String nomMarital = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_3_UTILISATEUR));
+                String prenom = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_4_UTILISATEUR));
+                String motDePasse = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_5_UTILISATEUR));
+                String identifiantDb = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_6_UTILISATEUR));
+                int idGenre = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_7_UTILISATEUR));
+                boolean admin = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_8_UTILISATEUR)) > 0;
+                String emailDb = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_9_UTILISATEUR));
+
+                utilisateur = new Utilisateur(id, nom, nomMarital, prenom, motDePasse, identifiantDb, idGenre, admin, emailDb);
+            }
+        }
+
+        return utilisateur;
+
+    }
 }

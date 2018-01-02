@@ -90,7 +90,7 @@ public class AccueilActivity extends AppCompatActivity implements OnClickListene
                     }
                     else
                     {
-                        text.setTextColor(Color.GREEN);
+                        text.setTextColor(Color.parseColor("#16B84E"));
                         //row.setBackgroundColor(Color.parseColor("#32CD32"));
                     }
                 }

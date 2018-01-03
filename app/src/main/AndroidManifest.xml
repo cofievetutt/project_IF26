@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".ConsulterRecetteActivity">
         </activity>
+        <activity android:name=".ListeCategoriesActivity">
+        </activity>
     </application>
 
 </manifest>

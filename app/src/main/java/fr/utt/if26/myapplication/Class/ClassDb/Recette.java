@@ -304,5 +304,31 @@ public class Recette {
         DataBaseHelper.db.getWritableDatabase().update(DataBaseHelper.TABLE_RECETTE_NAME, cv, DataBaseHelper.COL_1_RECETTE + " = " + this.idRecette, null);
     }
 
+    public static ArrayList<Recette> getRecetteByCat(int idCat) throws ParseException {
+        SQLiteDatabase stmt = DataBaseHelper.db.getReadableDatabase();
+        Cursor cursor = stmt.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_RECETTE_NAME + " WHERE " + DataBaseHelper.COL_5_RECETTE + "='" + idCat + "';", null);
 
+        ArrayList<Recette> liste = new ArrayList<>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+            for(int i = 0; i < count; i++) {
+                int id = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_1_RECETTE));
+                String date = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_2_RECETTE));
+                double montant = cursor.getDouble(cursor.getColumnIndex(DataBaseHelper.COL_3_RECETTE));
+                int idCompteDb = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_4_RECETTE));
+                int idCategorie = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_5_RECETTE));
+                String commentaire = cursor.getString(cursor.getColumnIndex(DataBaseHelper.COL_6_RECETTE));
+                int idEtat = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.COL_7_RECETTE));
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date convertedDate = new Date();
+                convertedDate = dateFormat.parse(date);
+
+                Recette recette = new Recette(id, convertedDate, montant, idCompteDb, idCategorie, commentaire, idEtat);
+                liste.add(recette);
+            }
+        }
+        return liste;
+    }
 }

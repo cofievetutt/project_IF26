@@ -11,6 +11,7 @@ import fr.utt.if26.myapplication.AccueilActivity;
 import fr.utt.if26.myapplication.CompteActivity;
 import fr.utt.if26.myapplication.ConnexionActivity;
 import fr.utt.if26.myapplication.InscriptionActivity;
+import fr.utt.if26.myapplication.ListeCategoriesActivity;
 import fr.utt.if26.myapplication.MainActivity;
 
 /**
@@ -23,6 +24,7 @@ public class UtilMenu {
     public static final int MENU_ACCEUIL = Menu.FIRST;
     public static final int MENU_INSCRIPTION = Menu.FIRST + 3;
     public static final int MENU_COMPTE = Menu.FIRST + 1;
+    public static final int MENU_CAT = Menu.FIRST + 4;
     public static final int MENU_DECONNEXION = Menu.FIRST + 2;
 
     public static void createMenu(Menu menu)
@@ -33,6 +35,8 @@ public class UtilMenu {
             menu.add(0, MENU_INSCRIPTION, Menu.NONE, "Inscription");
         if(ConnexionActivity.utilisateurConnecte != null)
             menu.add(0, MENU_COMPTE, Menu.NONE, "Liste des comptes");
+        if(ConnexionActivity.utilisateurConnecte != null)
+            menu.add(0, MENU_CAT, Menu.NONE, "Liste des catégories");
         if(ConnexionActivity.utilisateurConnecte != null)
             menu.add(0, MENU_DECONNEXION, Menu.NONE, "Déconnexion");
     }
@@ -62,6 +66,11 @@ public class UtilMenu {
             case UtilMenu.MENU_COMPTE:
                 Toast.makeText(context, "Liste des comptes", Toast.LENGTH_LONG).show();
                 intent.setClass(classe, CompteActivity.class);
+                classe.startActivity(intent);
+                break;
+            case UtilMenu.MENU_CAT:
+                Toast.makeText(context, "Liste des catégories", Toast.LENGTH_LONG).show();
+                intent.setClass(classe, ListeCategoriesActivity.class);
                 classe.startActivity(intent);
                 break;
             case UtilMenu.MENU_DECONNEXION:
